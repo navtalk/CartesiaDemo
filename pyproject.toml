@@ -1,0 +1,12 @@
+[project]
+name = "basic-chat"
+version = "0.1.0"
+description = "Basic chat example using Line SDK"
+requires-python = ">=3.10"
+dependencies = [
+    "cartesia-line==0.2.5",
+    "loguru>=0.7.0",
+]
+
+[tool.setuptools]
+py-modules = ["main"]
