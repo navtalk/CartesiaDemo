@@ -20,6 +20,7 @@ class TranscriptWrapper:
             return
         started = False
         message_id = None
+        transcript = ''
         async for output in self.inner.process(env, event):
             if isinstance(output, AgentSendText):
                 if not started:
@@ -31,6 +32,7 @@ class TranscriptWrapper:
                         "type": "start"
                     })
                 yield output
+                transcript += output.text
                 yield AgentSendCustom(metadata={
                     "id": message_id,
                     "role": "assistant",
@@ -43,7 +45,8 @@ class TranscriptWrapper:
             yield AgentSendCustom(metadata={
                 "id": message_id,
                 "role": "assistant",
-                "type": "end"
+                "type": "end",
+                "transcript": transcript
             })
     async def process(self, env, event):
         logger.info(
